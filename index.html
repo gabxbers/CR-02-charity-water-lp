@@ -1,92 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Charity: Water - Landing Page</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Helvetica Neue', sans-serif;
-      background-color: #153952;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 2rem;
-      padding: 2rem;
-      max-width: 1000px;
-    }
-
-    .text-content {
-      flex: 1;
-    }
-
-    .text-content h1 {
-      font-size: 2.5rem;
-      line-height: 1.3;
-    }
-
-    .highlight-voice { color: #fbbf24; }
-    .highlight-cause { color: #f97316; }
-    .highlight-water { color: #3b82f6; }
-    .highlight-all { color: #facc15; }
-
-    .description {
-      margin-top: 1rem;
-      font-size: 1rem;
-      color: #cbd5e1;
-    }
-
-    .donate-button {
-      margin-top: 1.5rem;
-      padding: 0.75rem 1.5rem;
-      background-color: #facc15;
-      color: #153952;
-      border: none;
-      border-radius: 999px;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .image-container {
-      flex: 1;
-      text-align: center;
-    }
-
-    .image-container img {
-      max-width: 100%;
-      border-radius: 1rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charity: Water - Clean Water for All</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to your external stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Ensure the canvas covers the whole screen for the firework effect */
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks to pass through to elements below */
+            z-index: 9999; /* Ensure it's on top of everything */
+        }
+        /* Basic styling for the loading spinner (not used in this version, but good to keep if you add LLM features back) */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #f1c40f;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <div class="text-content">
-      <h1>
-        One <span class="highlight-voice">Voice</span>.<br />
-        One <span class="highlight-cause">Cause</span>.<br />
-        Clean <span class="highlight-water">Water</span><br />
-        for <span class="highlight-all">All</span>.
-      </h1>
-      <p class="description">
-        Join a global movement led by students like you—take action today, your donation brings clean water and a future to those who need it most.
-      </p>
-      <a class="donate-button" href="#">Donate to a Cause</a>
+<body class="bg-[#2c5f7e] min-h-screen flex items-center justify-center p-4">
+    <!-- Canvas for fireworks -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Main container for the landing page content -->
+    <!-- Adjusted flex alignment for bottom alignment -->
+    <div class="relative w-full max-w-6xl bg-[#2c5f7e] rounded-lg shadow-xl overflow-hidden md:flex md:items-end">
+
+        <!-- Abstract shapes for decoration -->
+        <div class="shape-orange hidden md:block"></div>
+        <div class="shape-yellow-bottom-left hidden md:block"></div>
+        <div class="shape-yellow-bottom-right hidden md:block"></div>
+
+        <!-- Left section: Logo, Heading, Description, Button -->
+        <div class="flex-1 p-8 md:p-16 text-white z-20">
+            <!-- Logo -->
+            <div class="flex items-center mb-8">
+                <!-- User's provided logo path -->
+                <img src="img/logo.png" alt="Charity Water Icon" class="h-10 w-10 mr-3 rounded-md">
+                <span class="text-xl font-semibold">Charity: Water</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                One <span class="text-[#f1c40f]">Voice.</span> <br>
+                One <span class="text-[#f1c40f]">Cause.</span> <br>
+                Clean <span class="text-[#f1c40f]">Water</span> <br>
+                for <span class="text-[#f1c40f]">All.</span> <br>
+            </h1>
+
+            <!-- Description Paragraph -->
+            <p class="text-lg md:text-xl leading-relaxed mb-10">
+                Join a global movement led by students like you—take action today, your donation brings clean water and a future to those who need it most.
+            </p>
+
+            <!-- Call to Action Buttons -->
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <button onclick="triggerFireworks()" class="bg-[#f1c40f] text-[#2c5f7e] font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-400 transition duration-300 ease-in-out">
+                    Donate to a Cause
+                </button>
+                <button onclick="toggleGabyStory()" class="bg-white text-[#2c5f7e] font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out border border-[#2c5f7e]">
+                    Read More
+                </button>
+            </div>
+        </div>
+
+        <!-- Right section: Image and Your Story Container -->
+        <!-- Added negative margin-top to pull it up for alignment -->
+        <div class="relative flex-1 flex items-center justify-center p-4 md:p-0 min-h-[300px] md:min-h-[500px] lg:min-h-[600px] overflow-hidden -mt-16 md:-mt-24">
+            <!-- This container defines the oval shape and holds both the image and the story -->
+            <div id="imageStoryContainer" class="relative w-full h-full max-w-[500px] max-h-[500px] md:max-w-full md:max-h-full clipped-content-area">
+                <!-- Child Image (initially visible) -->
+                <!-- Removed problematic classes, relying on CSS for oval shape and fill -->
+                <img id="childImage" src="img/child.jpg" alt="Boy drinking clean water" class="rounded-full w-200 h-400 object-cover border-4 border-[#f1c40f]">
+
+                <!-- Your Story Section (initially hidden) -->
+                <div id="gabyStorySection" class="gaby-story-section gaby-story-hidden">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">My Story: Design for Impact</h2>
+                    <div class="story-content-scrollable">
+                        <div class="flex justify-center mb-6"></div>
+
+                        <p class="text-lg leading-relaxed mb-4">
+                            Hi, I’m Gaby Newgen, a passionate designer and student who wants to create an impactful design to raise awareness for Charity: Water—a cause that reflects my values and my drive to use creativity for meaningful change. 
+                        </p>
+                        <p class="text-lg leading-relaxed mb-4">
+                            As a college student, I’m especially focused on encouraging my peers to take initiative and get involved among our communities, especially for those who lack access to something as essential as clean water.
+                        </p>
+                        <p class="text-lg leading-relaxed mb-6">
+                            This project is one step in a much larger journey—using design to elevate purpose and make a difference fostering a sense of collective impact.
+                        </p>
+                    </div>
+                    <!-- Button to go back to image (outside scrollable content) -->
+                    <button onclick="toggleGabyStory()" class="mt-6 bg-[#f1c40f] text-[#2c5f7e] font-bold py-2 px-6 rounded-full shadow-lg hover:bg-yellow-400 transition duration-300 ease-in-out">
+                        Back to Image
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="image-container">
-      <img src="img/4832_Ethiopia_2019_CG-.jpg" alt="Child drinking clean water" />
-    </div>
-  </div>
+
+    <script>
+        // Get the canvas element and its 2D rendering context
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas dimensions to cover the full window
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Listen for window resize events to adjust canvas dimensions
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Array to hold all active particles
+        let particles = [];
+        const maxParticles = 100; // Maximum number of particles for a single burst
+
+        // Function to generate a random color
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Particle class definition
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = Math.random() * 2 + 1; // Random radius for variation
+                this.velocity = {
+                    x: (Math.random() - 0.5) * 5, // Random horizontal velocity
+                    y: (Math.random() - 0.5) * 5 // Random vertical velocity
+                };
+                this.alpha = 1; // Initial opacity
+                this.friction = 0.99; // Slows down particles over time
+                this.gravity = 0.05; // Pulls particles downwards
+            }
+
+            // Draw the particle on the canvas
+            draw() {
+                ctx.save(); // Save the current canvas state
+                ctx.globalAlpha = this.alpha; // Apply current opacity
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore(); // Restore the canvas state
+            }
+
+            // Update particle's position and properties
+            update() {
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.velocity.y += this.gravity; // Apply gravity
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= 0.03; // Fade out faster
+            }
+        }
+
+        // Function to create a firework burst at a specific location
+        function createFirework(x, y) {
+            const particleCount = 50 + Math.floor(Math.random() * 50); // Random number of particles per burst
+            const color = getRandomColor(); // Get a random color for the burst
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+
+        // Animation loop for fireworks
+        function animateFireworks() {
+            // Clear the entire canvas in each frame to remove the trail effect
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw each particle
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const particle = particles[i];
+                particle.update();
+                particle.draw();
+
+                // Remove particles that have faded out
+                if (particle.alpha <= 0.05 || particle.radius <= 0.5) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            // Request the next animation frame only if there are particles left
+            if (particles.length > 0) {
+                requestAnimationFrame(animateFireworks);
+            } else {
+                window.fireworksAnimationRunning = false; // Reset flag when animation is complete
+            }
+        }
+
+        // Function to trigger fireworks when the donate button is clicked
+        function triggerFireworks() {
+            // Clear existing particles to prevent overwhelming the canvas
+            particles = [];
+
+            // Create multiple firework bursts at random positions
+            for (let i = 0; i < 5; i++) { // Generate 5 bursts
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height * 0.7; // Limit to upper 70% of screen
+                createFirework(x, y);
+            }
+
+            // If animation is not already running, start it
+            if (particles.length > 0 && !window.fireworksAnimationRunning) {
+                window.fireworksAnimationRunning = true;
+                animateFireworks();
+            }
+        }
+
+        // Function to toggle visibility of child image and your story
+        function toggleGabyStory() {
+            const childImage = document.getElementById('childImage');
+            const yourStorySection = document.getElementById('gabyStorySection');
+
+            if (yourStorySection.classList.contains('gaby-story-hidden')) {
+                // Hide child image immediately
+                childImage.style.opacity = '0';
+                childImage.style.visibility = 'hidden';
+                childImage.style.pointerEvents = 'none';
+
+                // Show your story after a short delay to allow image to hide
+                setTimeout(() => {
+                    yourStorySection.style.display = 'flex'; // Ensure it's a flex container
+                    // Trigger reflow to ensure transition starts from correct state
+                    yourStorySection.offsetHeight; // Forces reflow
+                    yourStorySection.classList.remove('gaby-story-hidden');
+                    yourStorySection.classList.add('gaby-story-visible');
+                }, 50); // Small delay
+            } else {
+                // Hide your story
+                yourStorySection.classList.remove('gaby-story-visible');
+                yourStorySection.classList.add('gaby-story-hidden');
+                // Hide completely after transition
+                setTimeout(() => {
+                    yourStorySection.style.display = 'none';
+                    // Show child image
+                    childImage.style.opacity = '1';
+                    childImage.style.visibility = 'visible';
+                    childImage.style.pointerEvents = 'auto';
+                }, 500); // Match transition duration
+            }
+        }
+
+        // Start the animation loop when the window loads
+        window.onload = function() {
+            // Ensure canvas dimensions are set correctly on load
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Ensure your story is initially hidden with display: none
+            const yourStorySection = document.getElementById('gabyStorySection');
+            if (yourStorySection) {
+                yourStorySection.style.display = 'none';
+            }
+        };
+    </script>
 </body>
 </html>

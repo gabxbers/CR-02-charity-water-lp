@@ -1,198 +1,163 @@
-/* charity: water Brand Colors & Fonts
-
-Primary Colors:
-- Yellow:     #FFC907
-- Blue:       #2E9DF7
-
-Secondary Colors:
-- Light Blue: #8BD1CB
-- Green:      #4FCB53
-- Orange:     #FF902A
-- Red:        #F5402C
-- Dark Green: #159A48
-- Pink:       #F16061
-
-Fonts:
-- Proxima Nova
-- Avenir
-
-*/
-
-/* 
-  Charity: Water Landing Page Styles
-  This CSS uses the provided color palette and beginner-friendly styles.
-*/
-
-/* Set up the main font and background color for the whole page */
+/* Custom font for a cleaner look, similar to Inter */
 body {
-  background-color: #f4f8fb; /* Soft light blue for a fresh look */
-  font-family: 'Avenir', 'Proxima Nova', Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  color: #222;
+    font-family: 'Georgia Pro', sans-serif;
 }
 
-/* Add a slight shadow and rounded corners to each section for depth */
-section {
-  background: #fff; /* White background for sections */
-  border-radius: 12px; /* Rounded corners */
-  box-shadow: 0 2px 8px rgba(46, 157, 247, 0.07); /* Soft blue shadow */
-  margin: 24px 10px; /* Space between sections */
-  padding: 24px 16px;
+/* Custom styles for the abstract shapes */
+.shape-orange {
+    position: absolute;
+    top: 10%;
+    right: 28%;
+    width: 80px;
+    height: 80px;
+    background-color: #e67e22; /* A shade of orange */
+    border-radius: 50% 20% 50% 50%; /* Irregular rounded shape */
+    transform: rotate(30deg);
+    z-index: 10; /* Ensure it's above the image but behind the main content */
 }
 
-/* Hero Section Styles */
-.hero {
-  position: relative; /* Needed for overlay */
-  /* Set a background image that covers the whole section */
-  background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80');
-  background-size: cover;      /* Make the image cover the whole area */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat;
-  color: #fff;                 /* White text for contrast */
-  text-align: center;          /* Center the text */
-  padding: 60px 20px;          /* Add space above and below */
-  border-radius: 0 0 16px 16px; /* Only round bottom corners */
-
-  /* Add a dark overlay for better text readability */
-  /* This uses a simple linear-gradient overlay */
-  background-blend-mode: darken;
-  background-color: rgba(46, 157, 247, 0.45); /* Blue overlay */
+.shape-yellow-bottom-left {
+    position: absolute;
+    bottom: 10%;
+    right: 25%;
+    width: 50px;
+    height: 50px;
+    background-color: #f1c40f; /* A shade of yellow */
+    border-radius: 50%;
+    z-index: 10;
 }
 
-/* Make the headline bold and modern */
-.hero h1 {
-  font-size: 2.5em;
-  font-weight: bold;
-  letter-spacing: 1px;
-  margin-bottom: 15px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.15); /* Soft shadow for readability */
+.shape-yellow-bottom-right {
+    position: absolute;
+    bottom: 15%;
+    right: 20%;
+    width: 40px;
+    height: 40px;
+    background-color: #f1c40f; /* A shade of yellow */
+    border-radius: 50%;
+    z-index: 10;
 }
 
-/* Style the subheadline */
-.hero p {
-  font-size: 1.2em;
-  margin-top: 0;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.12);
+/* Class for the container that holds both the image and the story, and gets the clip-path */
+.clipped-content-area {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Story Section Styles */
-.story {
-  background-color: #8BD1CB; /* Secondary Light Blue */
-  color: #222;
-  text-align: center;
-  padding: 30px 20px;
+/* Base styles for the child image */
+#childImage {
+  border-radius: 50%;
+  width: 200px;
+  height: 300px; /* Taller than width for vertical oval */
+  object-fit: cover;
 }
 
-/* Add accent color to section headings */
-h2 {
-  color: #2E9DF7; /* Primary blue */
-  margin-top: 0;
-  font-weight: bold;
+/* Styles for the child image when it's hidden */
+.image-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
-/* Call-to-Action Section Styles */
-.call-to-action {
-  background-color: #FFC907; /* Primary Yellow */
-  color: #222;
-  text-align: center;
-  padding: 30px 20px;
+/* --- Your Story Section Styles --- */
+.gaby-story-section {
+    position: absolute; /* Position over the image area */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ensure it takes full width of its parent (.clipped-content-area) */
+    height: 100%; /* Ensure it takes full height of its parent */
+    background-color: #2c5f7e; /* Background color for the story section */
+    color: white !important; /* CHANGED: Text color for the story section to white */
+    display: flex; /* Default display for content layout */
+    flex-direction: column;
+    justify-content: space-between; /* Distribute space between header, content, and button */
+    align-items: flex-start; /* ALIGN CHILDREN TO THE LEFT */
+    padding: 1rem 1rem 1rem 2.5rem; /* More left padding to push content from oval edge */
+    text-align: left; /* Default text alignment for the section to left */
+    box-sizing: border-box; /* Include padding in element's total width and height */
+    z-index: 15; /* Above the image, below fireworks canvas */
+    border-radius: inherit; /* Inherit rounded corners from parent container */
+    /* Initial hidden state and transition */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.gaby-story-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* Allows interaction when visible */
 }
 
-/* Style the impact story image */
-.impact-image {
+.gaby-story-hidden {
+    opacity:0;
+    visibility: hidden;
+    pointer-events: none; /* Prevents interaction when hidden */
+}
+
+/* Styling for scrollable story content within Your story */
+.story-content-scrollable {
+  flex-grow: 1;
+  overflow-y: auto;
   width: 100%;
-  max-width: 320px;
-  border-radius: 10px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(46, 157, 247, 0.10);
+  max-width: 300px; /* Reduced from 350px */
+  margin: 0 auto; /* Centers horizontally */
+  padding: 0 0.5rem; /* Reduced horizontal padding */
+  box-sizing: border-box;
+  text-align: left;
 }
 
-/* Donate Button Styles */
-.donate-button {
-  display: inline-block;
-  background-color: #4FCB53; /* Green */
-  color: #fff;
-  padding: 14px 32px;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 1.1em;
-  margin-top: 18px;
-  box-shadow: 0 2px 8px rgba(79, 203, 83, 0.10);
-  transition: background 0.3s, transform 0.2s;
-  border: none;
-  cursor: pointer;
+/* Your existing code */
+.story-content-scrollable h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.story-content-scrollable ul {
+  margin-bottom: 1rem;
+}
+.story-content-scrollable p {
+  margin-bottom: 1rem;
 }
 
-/* Change button color when hovered */
-.donate-button:hover {
-  background-color: #159A48; /* Dark Green */
-  transform: translateY(-2px) scale(1.04); /* Slight lift */
-}
-
-/* Add some spacing between sections */
-section {
-  margin-bottom: 20px;
-}
-
-/* 
-  Media Queries for Responsive Design
-  Media queries help make your website look good on different screen sizes,
-  like phones (small screens) and computers (large screens).
-*/
-
-/* This media query applies styles when the screen is 600px wide or less (like on most phones) */
-@media (max-width: 600px) {
-  /* Make hero section padding smaller on small screens */
-  .hero {
-    padding: 32px 8px;
-    font-size: 1em;
-  }
-
-  /* Make headline font size smaller so it fits on small screens */
-  .hero h1 {
-    font-size: 1.4em;
-  }
-
-  /* Make subheadline font size smaller */
-  .hero p {
-    font-size: 1em;
-  }
-
-  /* Make story and call-to-action sections have less padding */
-  .story,
-  .call-to-action,
-  .donation-section {
-    padding: 14px 8px;
-  }
-
-  /* Make impact story image smaller and stack above the text */
-  .impact-content {
-    display: block; /* Stack items vertically */
-    text-align: center;
-  }
-
-  .impact-image {
-    width: 90%;    /* Make image take up most of the width */
-    max-width: 220px;
-  }
-}
-
-/* This media query applies styles when the screen is wider than 600px (like on tablets and computers) */
-@media (min-width: 601px) {
-  /* Show image and text side by side in the impact story */
-  .impact-content {
-    display: flex;           /* Place items in a row */
-    align-items: center;     /* Vertically center items */
-    justify-content: center; /* Center the whole group */
-    gap: 28px;               /* Space between image and text */
-    text-align: left;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .impact-image {
-    width: 300px;
-  }
+/* Responsive adjustments for shapes */
+@media (max-width: 768px) {
+    .shape-orange {
+        top: 5%;
+        right: 10%;
+        width: 60px;
+        height: 60px;
+    }
+    .shape-yellow-bottom-left {
+        bottom: 5%;
+        right: 5%;
+        width: 40px;
+        height: 40px;
+    }
+    .shape-yellow-bottom-right {
+        bottom: 8%;
+        right: 2%;
+        width: 30px;
+        height: 30px;
+    }
+    /* Adjust padding for story section on smaller screens */
+    .gaby-story-section {
+        /* Adjusted padding for mobile: more on the left to push content left */
+        padding: 0.5rem 0.5rem 0.5rem 1.5rem; /* Top, Right, Bottom, Left */
+    }
+    .gaby-story-section h2 {
+        font-size: 0.8rem;
+    }
+    .gaby-story-section h3 {
+        font-size: 0.8rem;
+    }
+    .gaby-story-section p, .gaby-story-section li {
+        font-size: 0.6rem;
+    }
+    /* Adjust max-width for scrollable content on smaller screens */
+    .story-content-scrollable {
+        max-width: 5%;
+        padding: 0 0.25rem;
+    }
 }
